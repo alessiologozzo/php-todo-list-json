@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./js/script.js" defer></script>
+    <title>PHP ToDo List JSON</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="al-wrapper" @click="disableEditMode()">
+            <div class="container">
+
+                <h1 class="text-center py-3">PHP ToDo List JSON</h1>
+
+                <div class="row pt-4 al-row-border">
+                    <div class="col-12 col-md-6 al-col-height">
+                        <ul class="d-flex flex-column gap-2">
+                            <h5 v-if="empty" class="h-100 d-flex justify-content-center align-items-center">Nessun elemento</h5>
+                            <li v-for="(item, index) in items" class="al-pointer" @click="toggleItem(index)">
+                                <span v-if="!edits[index]" class="al-w" :class="{'al-done': item.isDone == 'true'}">
+                                    {{item.name}}
+                                </span>
+                                <div v-else class="al-w">
+                                    <input type="text" :value="nameUpperCase(item.name)" @keyup.enter="changeName($event, index)">
+                                </div>
+
+                                <span class="d-flex justify-content-end align-items-center gap-2 w-25">
+                                    <span class="al-icon al-hover-trash" @click.stop="removeItem(index)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </span>
+                                    <span class="al-icon al-hover-edit" @click.stop="editItem($event, index)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-6 d-flex justify-content-center align-items-center mb-5">
+                        <form class="d-flex flex-column justify-content-center align-items-center al-row-border w-75 p-3">
+                            <label for="new-item-name" class="p-1">Inserisci un nuovo elemento</label>
+                            <input id="new-item-name" type="text" class="w-75 p-1 mb-2" placeholder="Scrivi...">
+                            <div class="mb-2 d-flex justify-content-center align-items-center gap-2">
+                                <label for="new-item-check">Completato</label>
+                                <input id="new-item-check" type="checkbox">
+                            </div>
+                            <input type="submit" value="Invia" class="al-submit" @click.prevent="addItem($event)">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
