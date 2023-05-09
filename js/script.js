@@ -64,7 +64,13 @@ createApp({
             this.disableEditModeExcept(index);
             this.edits[index] = !this.edits[index];
 
-            this.$nextTick(() => {let inputBox = e.target.closest("li").querySelector("input[type='text']"); inputBox.focus()});
+            this.$nextTick(() => this.focusInputBox(e) );
+        },
+
+        focusInputBox(e){
+            let inputBox = e.target.closest("li").querySelector("input[type='text']");
+            inputBox.focus();
+            inputBox.select();
         },
 
         disableEditMode(){
